@@ -109,6 +109,7 @@ public class HeadCoordinator {
 
     /**
      * Starts the main application loop for the Head Coordinator.
+     *
      * <p>Initializes the user interface by printing the welcome message and main menu options,
      * then enters an infinite loop to read user input and delegate command processing.</p>
      */
