@@ -3,13 +3,16 @@ package org.SwEng.headCoordinatorSystems;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import org.SwEng.subsystems.helpers.InternalSystemMessaging;
 import org.SwEng.subsystems.helpers.Subsystems;
 
 // Main Head Coordinator class
 public class HeadCoordinator {
-    private Map<String, CommandHandler> handlers;
-    private Scanner scanner;
-    private Subsystems subsystemInCommunicaiton;
+    private final Map<String, CommandHandler> handlers;
+    private final Scanner scanner;
+    private Subsystems subsystemInCommunication;
+    private Boolean run;
 
     /**
      * HeadCoordinator constructor.
@@ -17,7 +20,8 @@ public class HeadCoordinator {
     public HeadCoordinator() {
         handlers = new HashMap<>();
         scanner = new Scanner(System.in);
-        subsystemInCommunicaiton = Subsystems.ACCOUNT_SERVICE;
+        subsystemInCommunication = Subsystems.ACCOUNT_SERVICE;
+        run = true;
         initializeHandlers();
     }
 
@@ -41,14 +45,14 @@ public class HeadCoordinator {
     /**
      * Processes the inputted command.
      *
-     * @param input The user's input to process
+     * @param message The user's input to process
      */
-    public void processCommand(String input) {
-        if (input == null || input.trim().isEmpty()) {
+    public void processCommand(InternalSystemMessaging message) {
+        if (message.message == null || message.message.trim().isEmpty()) {
             return;
         }
 
-        String[] parts = input.trim().split("\\s+");
+        String[] parts = message.message.trim().split("\\s+");
         String command = parts[0].toLowerCase();
 
         // TODO: I don't think we need a lot of this but it is here if we want it later
@@ -67,7 +71,7 @@ public class HeadCoordinator {
 //            System.out.println("Type 'help' for available commands.");
 //        }
 
-        switch (subsystemInCommunicaiton) {
+        switch (subsystemInCommunication) {
             case ACCOUNT_SERVICE: {
                 // TODO: Route message to Account Service and wait for return message to display
                 // Responsible for authentication, authorization, profiles, and configuration.
@@ -109,23 +113,26 @@ public class HeadCoordinator {
 
     /**
      * Starts the main application loop for the Head Coordinator.
-     *
-     * <p>Initializes the user interface by printing the welcome message and main menu options,
-     * then enters an infinite loop to read user input and delegate command processing.</p>
      */
     public void start() {
+        // Initialize the system
         System.out.println("Head Coordinator Started");
-        System.out.println("Type 'help' or '3' for available commands\n");
-        System.out.println("1. Login\n2. Create Account\n3. Help\n4. Quit");
-        // I'm thinking we get the initial screen from the account manager.
+        System.out.println("Type 'help' for available commands\n");
 
+        // Retrieve the initial login screen from account service
+        // It should return something similar to the following
+        // However, I think the "Help" and "Quit" should be attached from the head coordinator
+        //System.out.println("1. Login\n2. Create Account\n3. Help\n4. Quit");
         //Also for each screen, we have its options say 1-5 and then option 6 and 7 ;) will be filtered out for
         //help and exiting the current screen
+        InternalSystemMessaging message = new InternalSystemMessaging(subsystemInCommunication, "Login");
+        processCommand(message);
 
-        while (true) {
+        while (run) {
             System.out.print("> ");
             String input = scanner.nextLine();
-            processCommand(input);
+            message = new InternalSystemMessaging(subsystemInCommunication, input);
+            processCommand(message);
         }
     }
 }
