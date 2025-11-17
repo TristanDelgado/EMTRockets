@@ -15,7 +15,7 @@ public class HeadCoordinator {
     private String outputMessage;
 
     // System components
-    private AccountCoordinator accountCoordinator;
+    private final AccountCoordinator accountCoordinator;
 
     /**
      * HeadCoordinator constructor.
@@ -35,16 +35,12 @@ public class HeadCoordinator {
     public void processCommand(InternalSystemMessage message) {
         switch (subsystemInCommunication) {
             case ACCOUNT_SERVICE: {
-                // TODO: Route message to Account Service and wait for return message to display
                 // Responsible for authentication, authorization, profiles, and configuration.
                 InternalSystemMessage returnedMessage = accountCoordinator.handleInput(message);
-                if (returnedMessage.subsystem == Subsystems.ACCOUNT_SERVICE){
-                    outputMessage = returnedMessage.message;
-                }
-                else {
+                if (returnedMessage.subsystem != Subsystems.ACCOUNT_SERVICE) {
                     subsystemInCommunication = returnedMessage.subsystem;
-                    outputMessage = returnedMessage.message;
                 }
+                outputMessage = returnedMessage.message;
                 break;
             }
 
@@ -89,9 +85,8 @@ public class HeadCoordinator {
         processCommand(message);
 
         while (run) {
-
-            System.out.print(formatLinesWithSuffix(outputMessage));
-            System.out.print("\nInput: ");
+            clearScreen();
+            System.out.print(outputMessage);
             String input = scanner.nextLine();
             message = new InternalSystemMessage(subsystemInCommunication, input);
             processCommand(message);
@@ -111,5 +106,14 @@ public class HeadCoordinator {
                 .map(line -> "> " + line)
                 // .collect() joins the modified lines back together with "\n"
                 .collect(Collectors.joining("\n"));
+    }
+
+    /**
+     * Prints n lines to "clear" the screen
+     */
+    private static void clearScreen() {
+        for  (int index = 0; index < 50; index++) {
+            System.out.print("\n");
+        }
     }
 }

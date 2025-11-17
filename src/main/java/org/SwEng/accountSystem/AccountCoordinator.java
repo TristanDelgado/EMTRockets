@@ -1,23 +1,22 @@
 package org.SwEng.accountSystem;
 
-import org.SwEng.subsystems.helpers.InternalSystemMessage;
-
 import java.util.List;
 import java.util.Objects;
+import org.SwEng.subsystems.helpers.InternalSystemMessage;
 
 import static org.SwEng.subsystems.helpers.Subsystems.ACCOUNT_SERVICE;
 import static org.SwEng.subsystems.helpers.Subsystems.STORE_SERVICE;
-
-enum Screen {
-    loadScreen,
-    loginScreen,
-    createAccScreen,
-}
 
 public class AccountCoordinator {
     private List<Account> allAccounts;
     private Account currentAccount;
     private Screen curScreen;
+
+    enum Screen {
+        loadScreen,
+        loginScreen,
+        createAccScreen,
+    }
 
     /**
      * Contains all static strings for user-facing output.
@@ -26,7 +25,7 @@ public class AccountCoordinator {
     private static class outputStrings {
         // From handleInput
         public static final String MAIN_MENU_PROMPT = "1. Login\n2. Create-Account\nInput: ";
-        public static final String PROMPT_EMAIL_COLON = "Input Email:";
+        public static final String PROMPT_EMAIL_COLON = "Input Email\nInput: ";
         public static final String INVALID_OPTION_MAIN_MENU = "Invalid option.\n1.Login\n2.Create-Account\nInput: ";
         public static final String INVALID_EMAIL_FORMAT = "Invalid email format. Input Email\nInput: ";
         public static final String EMAIL_EXISTS_MAIN_MENU = "Email already exists.\n1.Login\n2.Create-Account\nInput: ";
@@ -36,11 +35,11 @@ public class AccountCoordinator {
         public static final String PROMPT_EMAIL_NO_COLON = "Input Email\nInput: ";
         public static final String PROMPT_PASSWORD_NO_COLON = "Input Password\nInput: ";
         public static final String SUCCESS_LOGIN = "Successfully logged in\nInput: ";
-        public static final String LOGIN_FAILED_MAIN_MENU = "Incorrect Username or Password.1. Login\n2. Create-Account\nInput: ";
+        public static final String LOGIN_FAILED_MAIN_MENU = "Incorrect Username or Password.\n1. Login\n2. Create-Account\nInput: ";
         public static final String SUCCESS_ACCOUNT_CREATED = "Account created. Successfully logged in.";
     }
 
-    public AccountCoordinator(){
+    public AccountCoordinator() {
         allAccounts = AccountDB.loadAccounts();
         currentAccount = null;
         curScreen = Screen.loadScreen;
@@ -48,13 +47,12 @@ public class AccountCoordinator {
 
     // Handle Input
     public InternalSystemMessage handleInput(InternalSystemMessage message) {
-        switch(curScreen){
+        switch (curScreen) {
             case Screen.loadScreen:
                 // Could probably change the below code into a switch statement
-                if (Objects.equals(message.message, "")){
+                if (Objects.equals(message.message, "")) {
                     return (new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.MAIN_MENU_PROMPT));
-                }
-                else {
+                } else {
                     // Start the login process
                     if (Objects.equals(message.message, "1")) {
                         curScreen = Screen.loginScreen;
@@ -79,8 +77,7 @@ public class AccountCoordinator {
                 if (Objects.equals(currentAccount.getEmail(), "")) {
                     // User just sent their email
                     currentAccount = new Account(message.message, "");
-                }
-                else if (Objects.equals(currentAccount.getPassword(), "")) {
+                } else if (Objects.equals(currentAccount.getPassword(), "")) {
                     // User just sent their password
                     currentAccount = new Account(currentAccount.getEmail(), message.message);
                 }
@@ -92,7 +89,7 @@ public class AccountCoordinator {
                 // Populate the currentAccount object.
                 if (Objects.equals(currentAccount.getEmail(), "")) {
                     // User just sent their email. Validate it.
-                    if (message.message.isEmpty() || !message.message.contains("@")) {
+                    if (!message.message.contains("@")) {
                         return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.INVALID_EMAIL_FORMAT);
                     }
 
@@ -106,8 +103,7 @@ public class AccountCoordinator {
                     }
                     // Email is valid and unique, store it.
                     currentAccount = new Account(message.message, "");
-                }
-                else if (Objects.equals(currentAccount.getPassword(), "")) {
+                } else if (Objects.equals(currentAccount.getPassword(), "")) {
                     // User just sent their password.
                     currentAccount = new Account(currentAccount.getEmail(), message.message);
                 }
@@ -123,30 +119,26 @@ public class AccountCoordinator {
 
     /**
      * Helper method to process login state.
-     * This method is called *after* handleInput has updated the currentAccount object.
+     * This method is called after handleInput has updated the currentAccount object.
      * It checks the state of currentAccount (what info is filled) and responds.
      */
     private InternalSystemMessage loginToAccount() {
         if (Objects.equals(currentAccount.getEmail(), "")) {
             // This case should not be reached if handleInput is correct, but as a safeguard.
             return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_EMAIL_NO_COLON);
-        }
-        else if (Objects.equals(currentAccount.getPassword(), "")) {
+        } else if (Objects.equals(currentAccount.getPassword(), "")) {
             // This is the expected state after user has provided email.
             return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_PASSWORD_NO_COLON);
-        }
-        else {
+        } else {
             // Both email and password are provided. Check credentials.
             if (allAccounts.contains(currentAccount)) {
                 // Login success. Find the *actual* account object to make it current.
-                Account realAccount = allAccounts.get(allAccounts.indexOf(currentAccount));
-                currentAccount = realAccount;
+                currentAccount = allAccounts.get(allAccounts.indexOf(currentAccount));
 
                 curScreen = Screen.loadScreen; // Reset state machine for the next session
                 // Returns store service as a signal you've been logged in
                 return new InternalSystemMessage(STORE_SERVICE, outputStrings.SUCCESS_LOGIN);
-            }
-            else {
+            } else {
                 // Login failure.
                 currentAccount = null;
                 curScreen = Screen.loadScreen;
@@ -164,12 +156,10 @@ public class AccountCoordinator {
         if (Objects.equals(currentAccount.getEmail(), "")) {
             // Safeguard
             return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_EMAIL_NO_COLON);
-        }
-        else if (Objects.equals(currentAccount.getPassword(), "")) {
+        } else if (Objects.equals(currentAccount.getPassword(), "")) {
             // This is the expected state after user has provided email.
             return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_PASSWORD_NO_COLON);
-        }
-        else {
+        } else {
             // Both email and password are provided. Time to create the account.
             AccountDB.saveAccount(currentAccount);
             allAccounts = AccountDB.loadAccounts();

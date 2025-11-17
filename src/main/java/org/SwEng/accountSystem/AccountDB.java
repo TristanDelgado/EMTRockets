@@ -5,7 +5,7 @@ import java.util.*;
 
 public class AccountDB {
     //TODO: Always change this to your local computer's path.
-    private static final String FILE_PATH = "C:\\Users\\trist\\Desktop\\accounts.txt";
+    private static final String FILE_PATH = "src\\main\\java\\org\\SwEng\\accountSystem\\accounts.txt";
 
     // Save account to file
     public static void saveAccount(Account account) {

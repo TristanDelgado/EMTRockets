@@ -1,0 +1,6 @@
+user1@example.com,pass12345
+admin@system.com,securePassword!
+jane.doe@email.com,mySecretP@ss
+test_user@dev.net,testing987
+alice@wonder.land,downTheRabbitHoleemail@gmail.com,12345
+123@123,123123
