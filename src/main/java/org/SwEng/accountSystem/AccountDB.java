@@ -1,13 +1,14 @@
-package AccountSystem;
+package org.SwEng.accountSystem;
 
 import java.io.*;
 import java.util.*;
 
 public class AccountDB {
-    private static final String FILE_PATH = "accounts.txt";
+    //TODO: Always change this to your local computer's path.
+    private static final String FILE_PATH = "C:\\Users\\trist\\Desktop\\accounts.txt";
 
     // Save account to file
-    public static void saveAccount(AccountSys account) {
+    public static void saveAccount(Account account) {
         try (FileWriter fw = new FileWriter(FILE_PATH, true)) {
             fw.write(account.getEmail() + "," + account.getPassword() + "\n");
         } catch (IOException e) {
@@ -16,14 +17,14 @@ public class AccountDB {
     }
 
     // Read all accounts
-    public static List<AccountSys> loadAccounts() {
-        List<AccountSys> accounts = new ArrayList<>();
+    public static List<Account> loadAccounts() {
+        List<Account> accounts = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length == 2) {
-                    accounts.add(new AccountSys(data[0], data[1]));
+                    accounts.add(new Account(data[0], data[1]));
                 }
             }
         } catch (IOException e) {

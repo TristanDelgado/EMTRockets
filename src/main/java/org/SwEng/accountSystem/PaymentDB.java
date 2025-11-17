@@ -1,4 +1,4 @@
-package AccountSystem;
+package org.SwEng.accountSystem;
 
 import java.io.*;
 import java.util.*;

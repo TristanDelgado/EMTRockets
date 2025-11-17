@@ -1,24 +1,21 @@
-package AccountSystem;
+package org.SwEng.accountSystem;
 
-public class AccountSys {
+public class Account {
     private String email;
     private String password;
 
-    public AccountSys(String email, String password) {
+    public Account(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
     public String getEmail() {
-
         return email;
     }
 
     public String getPassword() {
-
         return password;
     }
-
 
     public void setEmail(String email) {
         if(email==null || !email.contains("@")){
@@ -27,7 +24,6 @@ public class AccountSys {
 
         this.email = email;
     }
-
 
     public void setPassword(String password) {
         if (password ==null || password.length() < 6){
@@ -41,7 +37,4 @@ public class AccountSys {
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
     }
-
-
-
 }

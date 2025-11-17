@@ -1,5 +1,7 @@
 package org.SwEng.subsystems.helpers;
 
+import java.util.List;
+
 /**
  * Represents an internal system message intended for communication between subsystems.
  * <p>
@@ -7,7 +9,7 @@ package org.SwEng.subsystems.helpers;
  * an associated message string.
  * </p>
  */
-public class InternalSystemMessaging {
+public class InternalSystemMessage {
 
     /**
      * The subsystem that this message is directed to.
@@ -25,7 +27,7 @@ public class InternalSystemMessaging {
      * @param subsystem the target subsystem for this message
      * @param message the message content to be sent
      */
-    public InternalSystemMessaging(Subsystems subsystem, String message) {
+    public InternalSystemMessage(Subsystems subsystem, String message) {
         this.subsystem = subsystem;
         this.message = message;
     }

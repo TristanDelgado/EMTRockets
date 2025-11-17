@@ -1,4 +1,4 @@
-package AccountSystem;
+package org.SwEng.accountSystem;
 
 
 public class PaymentSys {

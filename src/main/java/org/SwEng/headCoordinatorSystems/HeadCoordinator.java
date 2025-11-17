@@ -1,45 +1,30 @@
 package org.SwEng.headCoordinatorSystems;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-
-import org.SwEng.subsystems.helpers.InternalSystemMessaging;
+import org.SwEng.accountSystem.AccountCoordinator;
+import org.SwEng.subsystems.helpers.InternalSystemMessage;
 import org.SwEng.subsystems.helpers.Subsystems;
+
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 // Main Head Coordinator class
 public class HeadCoordinator {
-    private final Map<String, CommandHandler> handlers;
     private final Scanner scanner;
     private Subsystems subsystemInCommunication;
     private Boolean run;
+    private String outputMessage;
+
+    // System components
+    private AccountCoordinator accountCoordinator;
 
     /**
      * HeadCoordinator constructor.
      */
     public HeadCoordinator() {
-        handlers = new HashMap<>();
         scanner = new Scanner(System.in);
         subsystemInCommunication = Subsystems.ACCOUNT_SERVICE;
         run = true;
-        initializeHandlers();
-    }
-
-    /**
-     * Each handler must be initialized.
-     */
-    private void initializeHandlers() {
-        // Register all command handlers
-        registerHandler(new CmdHandlers.HelpHandler(handlers));
-    }
-
-    /**
-     * Each handler must also be registered with the coordinator.
-     *
-     * @param handler The handler to register with the coordinator.
-     */
-    private void registerHandler(CommandHandler handler) {
-        handlers.put(handler.getCommandName().toLowerCase(), handler);
+        accountCoordinator = new AccountCoordinator();
     }
 
     /**
@@ -47,37 +32,19 @@ public class HeadCoordinator {
      *
      * @param message The user's input to process
      */
-    public void processCommand(InternalSystemMessaging message) {
-        if (message.message == null || message.message.trim().isEmpty()) {
-            return;
-        }
-
-        String[] parts = message.message.trim().split("\\s+");
-        String command = parts[0].toLowerCase();
-
-        // TODO: I don't think we need a lot of this but it is here if we want it later
-//        String[] args = Arrays.copyOfRange(parts, 1, parts.length);
-//
-//        CommandHandler handler = handlers.get(command);
-//
-//        if (handler != null) {
-//            try {
-//                handler.handle(args);
-//            } catch (Exception e) {
-//                System.err.println("Error executing command: " + e.getMessage());
-//            }
-//        } else {
-//            System.out.println("Unknown command: " + command);
-//            System.out.println("Type 'help' for available commands.");
-//        }
-
+    public void processCommand(InternalSystemMessage message) {
         switch (subsystemInCommunication) {
             case ACCOUNT_SERVICE: {
                 // TODO: Route message to Account Service and wait for return message to display
                 // Responsible for authentication, authorization, profiles, and configuration.
-                // Example: accountService.handleMessage(internalMessage);
-                System.out.println("User input: " + command);
-                System.out.println("In Account Service");
+                InternalSystemMessage returnedMessage = accountCoordinator.handleInput(message);
+                if (returnedMessage.subsystem == Subsystems.ACCOUNT_SERVICE){
+                    outputMessage = returnedMessage.message;
+                }
+                else {
+                    subsystemInCommunication = returnedMessage.subsystem;
+                    outputMessage = returnedMessage.message;
+                }
                 break;
             }
 
@@ -116,23 +83,33 @@ public class HeadCoordinator {
      */
     public void start() {
         // Initialize the system
-        System.out.println("Head Coordinator Started");
-        System.out.println("Type 'help' for available commands\n");
+        System.out.println("System Started");
 
-        // Retrieve the initial login screen from account service
-        // It should return something similar to the following
-        // However, I think the "Help" and "Quit" should be attached from the head coordinator
-        //System.out.println("1. Login\n2. Create Account\n3. Help\n4. Quit");
-        //Also for each screen, we have its options say 1-5 and then option 6 and 7 ;) will be filtered out for
-        //help and exiting the current screen
-        InternalSystemMessaging message = new InternalSystemMessaging(subsystemInCommunication, "Login");
+        InternalSystemMessage message = new InternalSystemMessage(subsystemInCommunication, "");
         processCommand(message);
 
         while (run) {
-            System.out.print("> ");
+
+            System.out.print(formatLinesWithSuffix(outputMessage));
+            System.out.print("\nInput: ");
             String input = scanner.nextLine();
-            message = new InternalSystemMessaging(subsystemInCommunication, input);
+            message = new InternalSystemMessage(subsystemInCommunication, input);
             processCommand(message);
         }
+    }
+
+    /**
+     * Takes a string with multiple lines and prefixes a "> " to each line.
+     *
+     * @param inputString The string to process, (e.g., "Line 1\nLine 2")
+     * @return A new string with the formatted lines (e.g., "> Line 1\n> Line 2")
+     */
+    private static String formatLinesWithSuffix(String inputString) {
+        // The .lines() method splits the string by line-ending characters.
+        return inputString.lines()
+                // .map() transforms each line by adding ">"
+                .map(line -> "> " + line)
+                // .collect() joins the modified lines back together with "\n"
+                .collect(Collectors.joining("\n"));
     }
 }
