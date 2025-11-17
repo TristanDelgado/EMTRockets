@@ -1,7 +1,4 @@
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -9,90 +6,41 @@ class Product {
     private int id;
     private String name;
     private double price;
-    private int likes;
-    private boolean soldOut;
 
-    public Product(int id, String name, double price, boolean soldOut) {
+    public Product(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.soldOut = soldOut;
-        this.likes = 0;
     }
 
     public int getId() { return id; }
     public String getName() { return name; }
     public double getPrice() { return price; }
-    public boolean isSoldOut() {return soldOut;}
-    public int getLikes() {return likes;}
-
-    public void likes(){
-        likes++;
-    }
 
     @Override
     public String toString() {
-        return id + ": " + name + " - $" + price + (soldOut ? "Sold Out" : "") + " Likes: " + likes;
-    }
-}
-class Message{
-    private static int idCounter = 1;
-    private int id;
-    private String from;
-    private String content;
-    private boolean read;
-
-    public Message(String from, String content){
-        this.id = idCounter++;
-        this.from = from;
-        this.content = content;
-        this.read = false;
-    }
-    public int getId() { return id; }
-    public String getFrom() { return from; }
-    public String getContent() {return content;}
-    public boolean isRead() {return  read;}
-    public void markRead() { read = true; }
-
-    @Override
-    public String toString() {
-        return "Message ID: " + id + " From: " +
-                from + " - " + (read ? "[Read] " : "[Unread] ") + content;
+        return id + ": " + name + " - $" + price;
     }
 }
 
 public class OnlineStoreConsole {
     private List<Product> productList;
     private List<Product> cart;
-    private List<Message> messages;
-    private Scanner scanner;
-    private String customerEmail;
 
     public OnlineStoreConsole() {
         productList = new ArrayList<>();
         cart = new ArrayList<>();
-        messages = new ArrayList<>();
-        scanner = new Scanner(System.in);
-        customerEmail = "customer@gmail.com";
         initProducts();
     }
 
     private void initProducts() {
-        productList.add(new Product(1, "Enterprise", 2000000000.99, false));
-        productList.add(new Product(2, "Columbia", 1400000000.99, true));
-        productList.add(new Product(3, "Challenger", 1990000000.99, false));
-        productList.add(new Product(4, "Discovery", 200000000.99, false));
-        productList.add(new Product(5, "Atlantis", 17600000000.99, true));
-        productList.add(new Product(6, "Endeavour", 195000000.99, false));
-        productList.add(new Product(7, "Falcon 9", 20000000.99, false));
-        productList.add(new Product(8, "Starship", 687000000.99, true));
-        productList.add(new Product(9, "Mercury", 193200000.99, false));
+        productList.add(new Product(1, "Apollo", 2000000000.99));
+        productList.add(new Product(2, "Luna", 1400000000.99));
+        productList.add(new Product(3, "Atlas", 1990000000.99));
     }
 
     private void showProducts() {
-        // Sorts the products by descending likes
-        Collections.sort(productList, Comparator.comparing(Product::getLikes).reversed());
-        System.out.println("Available Products (sorted by likes):");
+        System.out.println("Available Products:");
         for (Product p : productList) {
             System.out.println(p.toString());
         }
@@ -120,152 +68,37 @@ public class OnlineStoreConsole {
         System.out.println("Product ID not found.");
     }
 
-    private void likeProduct(int productId) {
-        for (Product p : productList) {
-            if (p.getId() == productId) {
-                p.likes();
-                System.out.println("You liked " + p.getName() + ". Total " +
-                        "likes: " + p.getLikes());
-                return;
-            }
-            System.out.println("Product ID not found");
-        }
-        System.out.println("Product ID not found");
-    }
-
-    private void purchaseCart() {
-        if (cart.isEmpty()) {
-            System.out.println("Your cart is empty. Add products to your cart!");
-            return;
-        }
-        System.out.println("Choose payment method: credit or debit");
-        String paymentMethod = scanner.nextLine().trim().toLowerCase();
-        if (!paymentMethod.equals("credit") && !paymentMethod.equals("debit")){
-            System.out.println("Purchasing items: ");
-            return;
-        }
-
-        double total = 0.0;
-        System.out.println("Purchasing items:");
-        for(
-                Product p :cart)
-
-        {
-            System.out.print(p.getName() + "- $" + p.getPrice());
-            total += p.getPrice();
-        }
-        System.out.println("Total: $"+total );
-        System.out.println("Payment made by "+paymentMethod +" card. ");
-
-        sendReceipt();
-        cart.clear();
-    }
-    private void sendReceipt(){
-        System.out.println("Your receipt has been sent to your email!");
-    }
-    private void sendMessage() {
-        System.out.println("Enter your message to the staff:");
-        String content = scanner.nextLine();
-        Message msg = new Message("Customer", content);
-        messages.add(msg);
-        System.out.println("Message sent.");
-    }
-    private void viewAndReplyMessages() {
-        List<Message> unread = new ArrayList<>();
-        for (Message m : messages) {
-            if (!m.isRead()) {
-                unread.add(m);
-            }
-        }
-        if (unread.isEmpty()) {
-            System.out.println("No unread messages.");
-            return;
-        }
-        for (Message m : unread) {
-            System.out.println(m.toString());
-        }
-        System.out.println("Enter message ID to reply or 'skip' to exit:");
-        String input = scanner.nextLine().trim();
-        if (input.equalsIgnoreCase("skip")) {
-            return;
-        }
-        try {
-            int msgId = Integer.parseInt(input);
-            Message toReply = null;
-            for (Message m : unread) {
-                if (m.getId() == msgId) {
-                    toReply = m;
-                    break;
-                }
-            }
-            if (toReply == null) {
-                System.out.println("Message ID not found.");
-                return;
-            }
-            System.out.println("Enter reply message:");
-            String replyContent = scanner.nextLine();
-            messages.add(new Message("Staff (re: " + toReply.getId() + ")", replyContent));
-            toReply.markRead();
-            System.out.println("Reply sent.");
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid message ID.");
-        }
-    }
-
-
     public void run() {
-        System.out.println("Welcome to the EMT Rockets!");
+        Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.println("\nCommands: show, addcart [id], cart, buy, addwish [id], removewish [id], like [id], message, replymsgs, quit");
+            System.out.println("\nCommands: show (products), add [id], cart, quit");
             System.out.print("Enter command: ");
             String input = scanner.nextLine().trim();
-            String[] parts = input.split(" ");
 
-            try {
-                switch (parts[0].toLowerCase()) {
-                    case "show":
-                        showProducts();
-                        break;
-                    case "addcart":
-                        if (parts.length == 2) {
-                            int id = Integer.parseInt(parts[1]);
-                            addToCart(id);
-                        } else {
-                            System.out.println("Usage: addcart [product_id]");
-                        }
-                        break;
-                    case "cart":
-                        showCart();
-                        break;
-                    case "buy":
-                        purchaseCart();
-                        break;
-
-                    case "like":
-                        if (parts.length == 2) {
-                            int id = Integer.parseInt(parts[1]);
-                            likeProduct(id);
-                        } else {
-                            System.out.println("Usage: like [product_id]");
-                        }
-                        break;
-                    case "message":
-                        sendMessage();
-                        break;
-                    case "replymsgs":
-                        viewAndReplyMessages();
-                        break;
-                    case "quit":
-                        System.out.println("Exiting. Thank you for shopping!");
-                        scanner.close();
-                        return;
-                    default:
-                        System.out.println("Unknown command.");
+            if (input.equalsIgnoreCase("show")) {
+                showProducts();
+            } else if (input.startsWith("add")) {
+                String[] parts = input.split(" ");
+                if (parts.length == 2) {
+                    try {
+                        int id = Integer.parseInt(parts[1]);
+                        addToCart(id);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid product ID format.");
+                    }
+                } else {
+                    System.out.println("Usage: add [product_id]");
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid number format.");
+            } else if (input.equalsIgnoreCase("cart")) {
+                showCart();
+            } else if (input.equalsIgnoreCase("quit")) {
+                System.out.println("Exiting. Thank you for shopping!");
+                break;
+            } else {
+                System.out.println("Unknown command.");
             }
         }
+        scanner.close();
     }
 
     public static void main(String[] args) {
