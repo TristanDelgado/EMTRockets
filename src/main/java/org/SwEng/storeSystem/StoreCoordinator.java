@@ -1,7 +1,7 @@
 package org.SwEng;
-import org.SwEng.accountSystem.Account.java;
-import org.SwEng.accountSystem.PaymentSys.java;
-import org.SwEng.headCoordinator.java;
+import org.SwEng.accountSystem.Account;
+import org.SwEng.accountSystem.PaymentSys;
+import org.SwEng.headCoordinatorSystems.headCoordinator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -64,14 +64,14 @@ class Message{
     }
 }
 
-public class OnlineStoreConsole {
+public class StoreCoordinator {
     private List<Product> productList;
     private List<Product> cart;
     private List<Message> messages;
     private Scanner scanner;
     private String customerEmail;
 
-    public OnlineStoreConsole() {
+    public StoreCoordinator() {
         productList = new ArrayList<>();
         cart = new ArrayList<>();
         messages = new ArrayList<>();
@@ -271,8 +271,8 @@ public class OnlineStoreConsole {
         }
     }
 
-//    public static void main(String[] args) {
-//        OnlineStoreConsole app = new OnlineStoreConsole();
-//        app.run();
-//    }
+    public static void main(String[] args) {
+        StoreCoordinator app = new StoreCoordinator();
+        app.run();
+    }
 }
