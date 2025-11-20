@@ -2,13 +2,18 @@ package org.SwEng.accountSystem;
 
 import java.util.Objects;
 
+
 public class Account {
     private String email;
     private String password;
+    private AccountType accountType;
 
-    public Account(String email, String password) {
+
+
+    public Account(String email, String password, AccountType accountType) {
         this.email = email;
         this.password = password;
+        this.accountType = accountType;
     }
 
     public String getEmail() {
@@ -18,6 +23,9 @@ public class Account {
     public String getPassword() {
         return password;
     }
+
+    public AccountType getAccountType(){ return accountType;}
+
 
     public void setEmail(String email) {
         if(email==null || !email.contains("@")){
@@ -35,9 +43,20 @@ public class Account {
         this.password = password;
     }
 
+    public void setAccountType(AccountType accountType){
+        if (accountType == null){
+            throw new IllegalArgumentException("Account type can't be null");
+        }
+        this.accountType = accountType;
+    }
+
+
+
+
     public void displayInfo() {
         System.out.println("Email: " + email);
         System.out.println("Password: " + password);
+        System.out.println("Account Type:  ");
     }
 
     @Override
@@ -53,7 +72,8 @@ public class Account {
 
         // 4. Compare the fields that matter for equality (email and password)
         return Objects.equals(email, account.email) &&
-                Objects.equals(password, account.password);
+                Objects.equals(password, account.password) &&
+                Objects.equals(accountType, account.accountType);
     }
 
     /**
@@ -63,6 +83,6 @@ public class Account {
     @Override
     public int hashCode() {
 
-        return Objects.hash(email, password);
+        return Objects.hash(email, password, accountType);
     }
 }

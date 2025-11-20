@@ -1,7 +1,7 @@
 package org.SwEng;
 import org.SwEng.accountSystem.Account;
 import org.SwEng.accountSystem.PaymentSys;
-import org.SwEng.headCoordinatorSystems.headCoordinator;
+import org.SwEng.headCoordinatorSystems.HeadCoordinator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
