@@ -1,5 +1,9 @@
 package org.SwEng;
 import org.SwEng.accountSystem.Account;
+import org.SwEng.accountSystem.AccountCoordinator;
+import org.SwEng.accountSystem.AccountDB;
+import org.SwEng.headCoordinatorSystems.HeadCoordinator;
+import java.io.File;
 import org.SwEng.accountSystem.PaymentSys;
 import org.SwEng.headCoordinatorSystems.headCoordinator;
 import java.util.ArrayList;
@@ -7,6 +11,44 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+
+public void createAccount() {
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Enter new email: ");
+    String email = scanner.nextLine();
+    System.out.print("Enter new password (at least 6 characters): ");
+    String password = scanner.nextLine();
+
+    try {
+        // Construct Account object (validation is inside Account.java)
+        Account newAccount = new Account(email, password);
+
+        // Load existing accounts from file/database
+        AccountCoordinator accountCoordinator = new AccountCoordinator();
+
+        // Check if email already exists
+        boolean exists = false;
+        for (Account acc : accountCoordinator.getAllAccounts()) {
+            if (acc.getEmail().equals(email)) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (exists) {
+            System.out.println("Email already exists. Please try another.");
+            return;
+        }
+
+        // Save new account
+        AccountDB.saveAccount(newAccount);
+        System.out.println("Account created successfully!");
+
+    } catch (IllegalArgumentException e) {
+        // Throws from Account.java for invalid email or password
+        System.out.println("Error: " + e.getMessage());
+    }
+}
 
 class Product {
     private int id;
@@ -218,14 +260,18 @@ public class StoreCoordinator {
 
     public void run() {
         System.out.println("Welcome to the EMT Rockets!");
+
         while (true) {
-            System.out.println("\nCommands: show, addcart [id], cart, buy, like [id], messages, quit");
+            System.out.println("\nCommands: show, addcart [id], cart, buy, like [id], messages, quit, createaccount");
             System.out.print("Enter command: ");
             String input = scanner.nextLine().trim();
             String[] parts = input.split(" ");
 
             try {
                 switch (parts[0].toLowerCase()) {
+                    case "createaccount":
+                        createAccount();
+                        break;
                     case "show":
                         showProducts();
                         break;
