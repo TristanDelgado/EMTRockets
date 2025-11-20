@@ -40,6 +40,15 @@ public class Account {
             throw new IllegalArgumentException("Password must be at least 6 characters");
         }
 
+        if (!password.matches(".*\\d.*")) {
+            throw new IllegalArgumentException("Password must contain at least one number");
+        }
+
+        if (!password.matches(".*[^a-zA-Z0-9].*")) {
+            throw new IllegalArgumentException("Password must contain at least one symbol");
+        }
+
+
         this.password = password;
     }
 
