@@ -57,14 +57,14 @@ public class AccountCoordinator {
                     if (Objects.equals(message.message, "1")) {
                         curScreen = Screen.loginScreen;
                         // Create an empty account object to store login attempt data
-                        currentAccount = new Account("", "");
+                        currentAccount = new Account("", "",AccountType.CUSTOMER);
                         return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_EMAIL_COLON);
                     }
                     // Start the account creation process
                     if (Objects.equals(message.message, "2")) {
                         curScreen = Screen.createAccScreen;
                         // Create an empty account object to store new account data
-                        currentAccount = new Account("", "");
+                        currentAccount = new Account("", "",AccountType.CUSTOMER);
                         return new InternalSystemMessage(ACCOUNT_SERVICE, outputStrings.PROMPT_EMAIL_COLON);
                     }
                     // Handle invalid input
@@ -76,10 +76,10 @@ public class AccountCoordinator {
                 // Populate the currentAccount object with the user's input.
                 if (Objects.equals(currentAccount.getEmail(), "")) {
                     // User just sent their email
-                    currentAccount = new Account(message.message, "");
+                    currentAccount = new Account(message.message, "",AccountType.CUSTOMER);
                 } else if (Objects.equals(currentAccount.getPassword(), "")) {
                     // User just sent their password
-                    currentAccount = new Account(currentAccount.getEmail(), message.message);
+                    currentAccount = new Account(currentAccount.getEmail(), message.message,AccountType.CUSTOMER);
                 }
                 // Call the helper function to check the state and respond
                 return loginToAccount();
@@ -102,10 +102,10 @@ public class AccountCoordinator {
                         }
                     }
                     // Email is valid and unique, store it.
-                    currentAccount = new Account(message.message, "");
+                    currentAccount = new Account(message.message, "",AccountType.CUSTOMER);
                 } else if (Objects.equals(currentAccount.getPassword(), "")) {
                     // User just sent their password.
-                    currentAccount = new Account(currentAccount.getEmail(), message.message);
+                    currentAccount = new Account(currentAccount.getEmail(), message.message,AccountType.CUSTOMER);
                 }
                 // Call the helper function to check the state and respond
                 return createAccount();
