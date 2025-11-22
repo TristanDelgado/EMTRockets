@@ -31,4 +31,7 @@ public class InternalSystemMessage {
         this.subsystem = subsystem;
         this.message = message;
     }
+
+    public InternalSystemMessage(org.SwEng.subsystems.helpers.Subsystems subsystems, String message) {
+    }
 }
