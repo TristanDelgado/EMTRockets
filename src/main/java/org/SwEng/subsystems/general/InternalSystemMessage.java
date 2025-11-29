@@ -1,6 +1,4 @@
-package org.SwEng.subsystems.helpers;
-
-import java.util.List;
+package org.SwEng.subsystems.general;
 
 /**
  * Represents an internal system message intended for communication between subsystems.
@@ -17,21 +15,35 @@ public class InternalSystemMessage {
     public Subsystems subsystem;
 
     /**
-     * The message content to be sent to the subsystem.
+     * Basic message contents
      */
     public String message;
+
+    /**
+     * The additional commands or info needing to be passed to the subsystem.
+     */
+    public String additionalInfo;
 
     /**
      * Constructs a new {@code InternalSystemMessaging} object.
      *
      * @param subsystem the target subsystem for this message
-     * @param message the message content to be sent
+     * @param message   the message content to be sent
      */
     public InternalSystemMessage(Subsystems subsystem, String message) {
         this.subsystem = subsystem;
         this.message = message;
     }
 
-    public InternalSystemMessage(org.SwEng.subsystems.helpers.Subsystems subsystems, String message) {
+    /**
+     * Constructs a new {@code InternalSystemMessaging} object.
+     *
+     * @param subsystem the target subsystem for this message
+     * @param message   the message content to be sent
+     */
+    public InternalSystemMessage(Subsystems subsystem, String message, String additionalInfo) {
+        this.subsystem = subsystem;
+        this.message = message;
+        this.additionalInfo = additionalInfo;
     }
 }

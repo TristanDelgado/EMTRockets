@@ -1,6 +1,6 @@
 package org.SwEng;
 
-import org.SwEng.headCoordinatorSystems.HeadCoordinator;
+import org.SwEng.headCoordinatorSystem.HeadCoordinator;
 
 public class Main {
     public static void main(String[] args) {
