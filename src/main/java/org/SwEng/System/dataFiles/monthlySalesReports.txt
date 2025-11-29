@@ -1,0 +1,15 @@
+--- Monthly Report for: 2025-10 ---
+Falcon 9: 45
+Starship Prototype: 12
+Electron: 30
+Delta IV Heavy: 8
+Saturn V Model: 100
+----------------------------
+
+--- Monthly Report for: 2025-11 ---
+Falcon 9: 50
+Falcon Heavy: 15
+New Shepard: 20
+Soyuz: 12
+Blue Origin Hat: 5
+----------------------------

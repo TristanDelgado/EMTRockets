@@ -56,7 +56,7 @@ public class AccountCoordinator {
                 switch (message.message) {
                     case (""): //Used to retrieve the basic login main menu
                         logoutCurrentUserAccount();
-                        return new InternalSystemMessage(Subsystems.ACCOUNT_SYSTEM, outputStrings.MAIN_MENU_PROMPT);
+                        return new InternalSystemMessage(Subsystems.ACCOUNT_SYSTEM, outputStrings.MAIN_MENU_STORE_DESCRIPTION + outputStrings.MAIN_MENU_PROMPT);
                     case ("buyCart"): //Prompts the system to start the user's cart buying process
                         curScreen = Screen.buyItemsScreen;
                         return paymentCoordinator.buyCart(message, currentAccount);
@@ -212,7 +212,23 @@ public class AccountCoordinator {
      */
     private static class outputStrings {
         // From handleInput
-        public static final String MAIN_MENU_PROMPT = "1. Login\n2. Create-Account\nInput: ";
+        public static final String MAIN_MENU_STORE_DESCRIPTION =
+                "Welcome to our Rocket Store Application! " +
+                        "This application allows registered users, such as customers, staff, and the CEO, to interact with our shopping mall system.\n\n" +
+                        "As a customer, you can:\n" +
+                        "  * View our storefront which sells rockets\n" +
+                        "  * Purchase rockets\n" +
+                        "  * Message our employees with questions\n" +
+                        "  * And experience many more functionalities!\n" +
+                        "\n" +
+                        "=== Instructions for store use ===\n" + // Added \n
+                        "To execute a command, type its corresponding number and hit [ENTER].\n" +
+                        "For commands that require specific input (indicated by brackets like [id]), " +
+                        "type the number, a space, and then the input.\n\n" +
+                        "Example Command:  1. Like item [id]\n" +
+                        "Correct Usage:    \"1 101\"\n" + // Added explicit example line
+                        "=======================================================================\n\n";
+        public static final String MAIN_MENU_PROMPT = "Commands:\n1. Login\n2. Create-Account\nInput: ";
         public static final String PROMPT_EMAIL_COLON = "Input Email\nInput: ";
         public static final String INVALID_OPTION_MAIN_MENU = "Invalid option.\n1.Login\n2.Create-Account\nInput: ";
         public static final String INVALID_EMAIL_FORMAT = "Invalid email format. Input Email\nInput: ";

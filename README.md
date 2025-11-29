@@ -1,10 +1,7 @@
 # EMT Rockets
 
 ## Misc fixes needing implementation
-- Add instructions for how to use system
 - Add separator lines throughout systems similar to messaging systems
-- Check if daily and monthly reports viewing works correctly
-  - Will need some pre-made reports to be generated
 
 ## Post Project Completion TODOs
 - Add project plans draw.io file for proof of SW Eng
