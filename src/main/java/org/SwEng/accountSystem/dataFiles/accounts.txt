@@ -5,6 +5,6 @@ cust_c@example.com,addressonly,customer,,,99:Satellite:Ln:Tampa:FL,
 cust_d@example.com,minimal,customer,,,,
 worker1@system.com,sysadmin,worker,,,,
 worker2@system.com,workerpass,worker,,,,
-1@,1,customer,12451346621,12312412,52 Fiver Lane: Destin: FL,012
+1@,1,customer,12451346621,12312412,52 Fiver Lane: Destin: FL,
 2@,2,worker,,,,
 9@,9,ceo,,,,

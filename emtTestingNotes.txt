@@ -1,0 +1,84 @@
+TESTING DOCUMENTATION
+
+Account Screen:
+- Login
+	- Input login with a second argument
+	- Email without an "@"
+	- Login with blank email
+	- Login with blank password
+- Create Account
+	- Input with a second argument
+	- Create without an "@" symbol
+	- Create with blank email
+	- Create with blank password
+
+Store Screen:
+	- Customer Screen:
+		- Add item to cart normally
+			- Add item to cart with ID that doesn't go with any item
+			- Use command without second argument
+			- Try to add an item with 0 inventory
+		- Like item normally
+			- Input ID for second argument that doesn't go with any item
+			- Use command without second argument
+		- Exit the store
+			- Exit the store with a second argument
+		- Input unknown argument
+		- Input unknown argument with spaces between arguments
+		- Choose to message the store
+			- Input second argument when choosing to message the store
+		- View Cart
+			- View cart with second argument
+			- View Cart:
+				- Remove an item from the cart
+				- Try to remove an item from the cart when its not in the cart
+				- Try to purchase cart
+				- Try to purchase empty cart
+				- Exit cart
+				- Input unkown command
+	- Worker Screen:
+		- Modify item normally
+			- Try to use modify command without second argument
+			- Try to input an item ID that doesn't exist
+		- Remove item normally
+			- Try to remove an item that doesn't exist
+			- Try to use the remove item command without the second argument
+		- Add an item
+			- Input no argument for each item value
+		- Choose to respond to customer messages
+			- Choose to respond with second argument
+		- Exit the store
+
+
+Messaging System:
+	- Customer View
+		- Input and send a message
+		- Return to the store
+		- Logout of system
+		- Note: Errored input is not possible since anything not matching a command is sent as a message.
+	
+	- Worker View
+		- Conversation Selection
+			- Return to store
+			- Logout of system
+			- Select a customer
+		- Conversation view
+			- Note: Errored input is not possible since anything not matching a command is sent as a message.
+			- Send messages
+			- Return to the conversation list
+			- Return to store
+			- Logout of system
+			
+CEO Login:
+	- Upon login, taken to screen to see reports
+		- View Daily Reports
+			- View Daily reports with second argument
+			- In viewing Daily reports screen
+				- Select a report to view
+				- Input invalid report
+		- View Monthly Reports
+			- View Monthly reports with second argument
+			- In viewing Monthly reports screen
+				- Select a report to view
+				- Input invalid report
+		- Exit system
