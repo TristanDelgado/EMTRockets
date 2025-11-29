@@ -147,8 +147,12 @@ public class StoreCoordinator {
                         String id = parts[1];
                         Product product = findProductById(productList, id);
                         if (product.getInventoryCount() > 0) {
-                            curUser.addItemToCart(parts[1]);
-                            output.append(product.getName()).append(" added to cart.\nHit [ENTER] to continue.");
+                            if (curUser.getItemIdsInCart() != null && !curUser.getItemIdsInCart().contains(id)) {
+                                curUser.addItemToCart(parts[1]);
+                                output.append(product.getName()).append(" added to cart.\nHit [ENTER] to continue.");
+                            } else {
+                                return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Item already in cart.\nHit [ENTER] to return to store.");
+                            }
                         } else {
                             output.append("Out of product: ").append(product.getName()).append("\n");
                             output.append("Hit [ENTER] to return to store front.");
