@@ -1,6 +1,0 @@
-user1@example.com,pass12345,CUSTOMER
-admin@system.com,securePassword!,WORKER
-jane.doe@email.com,mySecretP@ss,CUSTOMER
-test_user@dev.net,testing987,CUSTOMER
-alice@wonder.land,downTheRabbitHoleemail@gmail.com,12345,WORKER
-123@123,123123,WORKER

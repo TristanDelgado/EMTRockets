@@ -1,4 +1,4 @@
-package org.SwEng.subsystems.helpers;
+package org.SwEng.subsystems.general;
 
 /**
  * Provides a common area to track all existing subsystems
@@ -18,23 +18,23 @@ public enum Subsystems {
      * Represents the **Account Management** subsystem, responsible for
      * user authentication, authorization, profiles, and configuration.
      */
-    ACCOUNT_SERVICE,
+    ACCOUNT_SYSTEM,
 
     /**
      * Represents the **Messaging and Notification** subsystem, responsible for
      * handling internal and external communication (e.g., email, push notifications).
      */
-    MESSAGING_SERVICE,
+    MESSAGING_SYSTEM,
 
     /**
      * Represents the core **System and Utility** subsystem, responsible for
      * centralized logging, configuration, health checks, and scheduled tasks.
      */
-    SYSTEM_SERVICE,
+    SYSTEM,
 
     /**
      * Represents the **E-commerce/Storefront** subsystem, responsible for
      * product catalog, inventory, order processing, and payment integration.
      */
-    STORE_SERVICE;
+    STORE_SYSTEM
 }

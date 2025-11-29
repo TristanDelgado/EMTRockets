@@ -1,0 +1,11 @@
+cust_a@example.com,securepass1,customer,4111222233334444,5555666677778888,123:Main:St:Orlando:FL,101,108
+user1@example.com,pass12345,customer,,132,5:Eglin:Drive:Shalimar:FL,104,108
+cust_b@example.com,rocketfan,customer,,5555666777888999,,103,107
+cust_c@example.com,addressonly,customer,,,99:Satellite:Ln:Tampa:FL,
+cust_d@example.com,minimal,customer,,,,
+worker1@system.com,sysadmin,worker,,,,
+worker2@system.com,workerpass,worker,,,,
+1@,1,customer,12451346621,12312412,52 Fiver Lane: Destin: FL,
+2@,2,worker,,,,
+9@,9,ceo,,,,
+tristan@gmail.com,1234,customer,123,,Hello: Alabama,
