@@ -20,7 +20,6 @@ public class HeadCoordinator {
     private final SystemCoordinator systemCoordinator;
     private final MessagingCoordinator messagingCoordinator;
     private Subsystems subsystemInCommunication;
-    private final Boolean run;
     private String outputMessage;
 
     /**
@@ -29,7 +28,6 @@ public class HeadCoordinator {
     public HeadCoordinator() {
         scanner = new Scanner(System.in);
         subsystemInCommunication = Subsystems.ACCOUNT_SYSTEM;
-        run = true;
         accountCoordinator = new AccountCoordinator();
         storeCoordinator = new StoreCoordinator();
         systemCoordinator = new SystemCoordinator();
@@ -68,8 +66,7 @@ public class HeadCoordinator {
                 InternalSystemMessage returnedMessage;
                 if (!messagingCoordinator.isCustomerLoggedIn()) {
                     returnedMessage = messagingCoordinator.handleInput(message, accountCoordinator.getCurrentUserAccount());
-                }
-                else{
+                } else {
                     returnedMessage = messagingCoordinator.handleInput(message);
                 }
                 if (returnedMessage.subsystem != Subsystems.MESSAGING_SYSTEM) {
@@ -112,10 +109,8 @@ public class HeadCoordinator {
             }
 
             default: {
-                // TODO: Handle unknown or unsupported subsystem
-                // Example: log a warning or throw an exception.
-                // Example: logger.warn("Unknown subsystem: " + subsystemInCommunicaiton);
-                break;
+                // This indicates that the program has entered an impossible or unexpected state.
+                throw new IllegalStateException("Unexpected system state reached (Unknown or unsupported subsystem in communication).");
             }
         }
     }
@@ -128,19 +123,29 @@ public class HeadCoordinator {
         System.out.println("System Started");
 
         // Used for generating daily reports automatically
-        LocalTime now = LocalTime.now();
+        LocalTime now;
         LocalTime start = LocalTime.of(20, 55); // 8:55 PM (24-hour format)
         LocalTime end = LocalTime.of(21, 5);   // 9:05 PM (24-hour format)
 
+        // Used for generating monthly reports automatically
+        LocalDate today;
+
+        // Gets the initial login screen from the account coordinator
         InternalSystemMessage message = new InternalSystemMessage(subsystemInCommunication, "");
         processCommand(message);
 
-        while (run) {
+        while (true) {
             // Clears the screen to make the UI feel reactive
             clearScreen();
-            // Checks if we are +-5 minutes from 9 PM, if so generate a report
+            now = LocalTime.now();
+            today = LocalDate.now();
+            // Checks if we are +-5 minutes from 9 PM, if so generate a daily report
             if (!now.isBefore(start) && !now.isAfter(end)) {
                 systemCoordinator.generateDailyReport(storeCoordinator.getSalesData(), LocalDate.now().toString());
+            }
+            // Checks if we are on the last day of the month, if so, generate the monthly report.
+            if (today.getDayOfMonth() == today.lengthOfMonth()) {
+                systemCoordinator.generateMonthlyReport(storeCoordinator.getSalesData(), today.toString());
             }
             System.out.print(outputMessage);
             String input = scanner.nextLine();

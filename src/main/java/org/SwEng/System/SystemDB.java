@@ -28,7 +28,6 @@ public class SystemDB {
      * @param targetDate The date to generate the report for (Format: "YYYY-MM-DD").
      */
     public static void generateDailySalesReport(String salesData, String targetDate) {
-
         String filteredDates = filterSalesByDate(salesData, targetDate);
         writeReport(filteredDates, DAILY_REPORT_PATH, "Daily Report for: " + targetDate);
     }
@@ -38,7 +37,7 @@ public class SystemDB {
      */
     public static void generateMonthlySalesReport(String salesData, String targetDateStr) {
         String filteredDates = filterSalesByMonth(salesData, targetDateStr);
-        // TODO: Change the "Monthly Report for: " to only append the month and year.
+        targetDateStr = targetDateStr.substring(0, 7); // Returns only the YYYY-MM of our date.
         writeReport(filteredDates, MONTHLY_REPORT_PATH, "Monthly Report for: " + targetDateStr);
     }
 

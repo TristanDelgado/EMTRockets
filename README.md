@@ -1,9 +1,9 @@
 # EMT Rockets
 
 ## Misc fixes needing implementation
-- Change the daily/monthly reports viewing options to match the store way
 - Add separator lines throughout systems similar to messaging systems
-- In the report selection in both the daily and monthly reports, if selection is errored, the return screen is not desirable
+- Check if daily and monthly reports viewing works correctly
+  - Will need some pre-made reports to be generated
 
 ## Post Project Completion TODOs
 - Add project plans draw.io file for proof of SW Eng

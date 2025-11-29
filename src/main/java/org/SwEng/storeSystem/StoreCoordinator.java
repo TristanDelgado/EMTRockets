@@ -123,7 +123,6 @@ public class StoreCoordinator {
             case storeFrontScreen -> (curUser.getAccountType() == AccountType.CUSTOMER)
                     ? handleStoreFrontScreenCustomerInput(message)
                     : handleStoreFrontScreenWorkerInput(message);
-
             case cartScreen -> handleCartScreenInput(message);
             case productEditorScreen -> handleProductEditorScreenInput(message);
         };
@@ -156,7 +155,7 @@ public class StoreCoordinator {
                         }
                         return new InternalSystemMessage(Subsystems.STORE_SYSTEM, output.toString());
                     } else {
-                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"1 ITEM_ID\"");
+                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"1 ITEM_ID\"Hit [ENTER] to return to store.");
                     }
 
                 case "2": //View Cart
@@ -175,7 +174,7 @@ public class StoreCoordinator {
                             return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "No product with ID " + parts[1] + " was found.\nHit [ENTER] to return to store.");
                         }
                     } else {
-                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"3 ITEM_ID\"");
+                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"3 ITEM_ID\"Hit [ENTER] to return to store.");
                     }
                     break;
                 case "4": // Message the store
@@ -185,7 +184,7 @@ public class StoreCoordinator {
                     return new InternalSystemMessage(Subsystems.ACCOUNT_SYSTEM, "");
 
                 default:
-                    output.append("Unknown command.\n");
+                    output.append("Unknown command.\nHit [Enter] to return to store front.");
             }
         } catch (NumberFormatException e) {
             output.append("Invalid number format.\n");
@@ -233,7 +232,7 @@ public class StoreCoordinator {
                         }
 
                     } else {
-                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"2 ITEM_ID\"");
+                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"2 ITEM_ID\"Hit [ENTER] to return to return to store.");
                     }
                     break;
 
@@ -299,7 +298,7 @@ public class StoreCoordinator {
                         }
                     } else {
                         // With no argument given, return instructions for how to use the command.
-                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"1 ITEM_ID\"");
+                        return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "Error of command usage.\nCorrect Usage: \"1 ITEM_ID\"Hit [ENTER] to return to cart.");
                     }
 
                 case "2": //Buy items in cart

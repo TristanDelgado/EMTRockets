@@ -8,8 +8,6 @@ import java.util.List;
 public class SystemCoordinator {
 
     private Screen curScreen;
-    // Store the specific report text to display in the view screen
-    //private String currentReportView = "";
 
     public SystemCoordinator() {
         this.curScreen = Screen.MAIN_MENU;
@@ -23,7 +21,6 @@ public class SystemCoordinator {
             case MAIN_MENU -> handleMainMenu(message);
             case DAILY_SELECTION -> handleDailySelection(message);
             case MONTHLY_SELECTION -> handleMonthlySelection(message);
-            //case VIEWING_REPORT -> handleReportView(message);
         };
     }
 
@@ -33,7 +30,7 @@ public class SystemCoordinator {
 
         // Check if we are just entering this screen (no input or returning from another state)
         if (input.isEmpty()) {
-            output.append("Welcome, CEO.\n1. View Daily Reports\n2. View Monthly Reports\n3. Exit System\nInput: ");
+            output.append("Welcome, CEO.\n\nCommands:\n1. View Daily Reports\n2. View Monthly Reports\n3. Exit System\nInput: ");
             return new InternalSystemMessage(Subsystems.SYSTEM, output.toString());
         }
 
@@ -53,7 +50,7 @@ public class SystemCoordinator {
             case "3" ->
                 // Return control to the Account System (Login screen)
                     new InternalSystemMessage(Subsystems.ACCOUNT_SYSTEM, "");
-            default -> new InternalSystemMessage(Subsystems.SYSTEM, "Invalid Selection.\nHit [ENTER] to return to report selection.");
+            default -> new InternalSystemMessage(Subsystems.SYSTEM, "Invalid Selection.\nHit [ENTER] to return welcome screen.");
         };
     }
 
@@ -61,10 +58,10 @@ public class SystemCoordinator {
 
     private InternalSystemMessage handleDailySelection(InternalSystemMessage message) {
         StringBuilder output = new StringBuilder();
-        String input = message.message.trim();
+        String[] parts = message.message.trim().split(" ");
 
         // 1. Display the list of available dates
-        if (input.isEmpty()) {
+        if (parts.length == 0 || parts[0].isEmpty()) {
             List<String> availableDates = SystemDB.getAllDailyReportsByDateOnly();
 
             output.append("--- Available Daily Reports ---\n");
@@ -75,33 +72,40 @@ public class SystemCoordinator {
                     output.append("- ").append(date).append("\n");
                 }
             }
-            output.append("\nEnter the date (YYYY-MM-DD) to view, or '0' to return.\nInput: ");
+            output.append("Commands:\n1. Select report [YYYY-MM-DD]\n2. Return to welcome screen.\nInput: ");
             return new InternalSystemMessage(Subsystems.SYSTEM, output.toString());
         }
 
         // 2. Handle User Input
-        if (input.equalsIgnoreCase("0")) {
-            curScreen = Screen.MAIN_MENU;
-            return handleMainMenu(new InternalSystemMessage(Subsystems.SYSTEM, ""));
-        }
+        switch (parts[0]) {
+            case "1" :
+                if (parts.length == 2) {
+                    String report = SystemDB.getDailyReport(parts[1]);
+                    if (report != null) {
+                        return displayReport(report);
+                    } else {
+                        return new InternalSystemMessage(Subsystems.SYSTEM, "Report not found.\nHit [ENTER] to return to report selection.");
+                    }
+                }
+                else {
+                    return new InternalSystemMessage(Subsystems.SYSTEM, "Error of command usage.\nCorrect Usage: \"1 REPORT_DATE\"\nHit [ENTER] to return to report selection.");
+                }
 
-        // Try to fetch the report from StoreDB
-        String report = SystemDB.getDailyReport(input);
-        if (report != null) {
-            //this.currentReportView = report;
-            //this.curScreen = Screen.VIEWING_REPORT;
-            return displayReport(report);
-        } else {
-            return new InternalSystemMessage(Subsystems.SYSTEM, "Report not found. Hit [ENTER] to return to report selection.");
+            case "2" :
+                curScreen = Screen.MAIN_MENU;
+                return handleMainMenu(new InternalSystemMessage(Subsystems.SYSTEM, ""));
+
+            default:
+                return new InternalSystemMessage(Subsystems.SYSTEM, "Unknown command.\nHit [Enter] to return to report selection.");
         }
     }
 
     private InternalSystemMessage handleMonthlySelection(InternalSystemMessage message) {
         StringBuilder output = new StringBuilder();
-        String input = message.message.trim();
+        String[] parts = message.message.trim().split(" ");
 
-        // 1. Display the list of available dates
-        if (input.isEmpty()) {
+        // Display the list of available dates
+        if (parts.length == 0 || parts[0].isEmpty()) {
             List<String> availableDates = SystemDB.getAllMonthlyReportsByDateOnly();
 
             output.append("--- Available Monthly Reports ---\n");
@@ -112,28 +116,43 @@ public class SystemCoordinator {
                     output.append("- ").append(date).append("\n");
                 }
             }
-            output.append("\nEnter the date (YYYY-MM-DD) to view, or '0' to return.\nInput: ");
+            // Logic Match: Updated prompts to match the switch statement commands used in Daily
+            output.append("Commands:\n1. Select report [YYYY-MM]\n2. Return to welcome screen.\nInput: ");
             return new InternalSystemMessage(Subsystems.SYSTEM, output.toString());
         }
 
-        // 2. Handle User Input
-        if (input.equalsIgnoreCase("0")) {
-            curScreen = Screen.MAIN_MENU;
-            return handleMainMenu(new InternalSystemMessage(Subsystems.SYSTEM, ""));
-        }
+        // Handle User Input
+        switch (parts[0]) {
+            case "1" :
+                if (parts.length == 2) {
+                    // Logic Match: Fetching Monthly report instead of Daily
+                    String report = SystemDB.getMonthlyReport(parts[1]);
+                    if (report != null) {
+                        return displayReport(report);
+                    } else {
+                        return new InternalSystemMessage(Subsystems.SYSTEM, "Report not found.\nHit [ENTER] to return to report selection.");
+                    }
+                }
+                else {
+                    return new InternalSystemMessage(Subsystems.SYSTEM, "Error of command usage.\nCorrect Usage: \"1 REPORT_DATE\"\nHit [ENTER] to return to report selection.");
+                }
 
-        // Try to fetch the report from StoreDB
-        String report = SystemDB.getMonthlyReport(input);
-        if (report != null) {
-            return displayReport(report);
-        } else {
-            return new InternalSystemMessage(Subsystems.SYSTEM, "Report not found. Hit [ENTER] to return to report selection.");
+            case "2" :
+                // Logic Match: Return to Main Menu
+                curScreen = Screen.MAIN_MENU;
+                return handleMainMenu(new InternalSystemMessage(Subsystems.SYSTEM, ""));
 
+            default:
+                return new InternalSystemMessage(Subsystems.SYSTEM, "Unknown command.\nHit [Enter] to return to report selection.");
         }
     }
 
     public void generateDailyReport(String salesData, String targetDate) {
         SystemDB.generateDailySalesReport(salesData, targetDate);
+    }
+
+    public void generateMonthlyReport(String salesData, String targetDate) {
+        SystemDB.generateMonthlySalesReport(salesData, targetDate);
     }
 
     // --- REPORT GENERATION HANDLERS ---
@@ -161,7 +180,6 @@ public class SystemCoordinator {
     enum Screen {
         MAIN_MENU,
         DAILY_SELECTION,
-        MONTHLY_SELECTION//,
-        //VIEWING_REPORT
+        MONTHLY_SELECTION
     }
 }
