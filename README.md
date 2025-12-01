@@ -1,8 +1,5 @@
 # EMT Rockets
 
-## Misc fixes needing implementation
-- Add separator lines throughout systems similar to messaging systems
-
 ## Post Project Completion TODOs
 - Add project plans draw.io file for proof of SW Eng
 - Make picture demo in the ReadMe file
@@ -36,10 +33,10 @@ View the video demo [HERE]().
 
 * DONE - The CEO must be registered to use the shopping mall application.
 * DONE - The CEO can access the daily summary report generated at 9 pm every business day.
-* The CEO can access the monthly report generated at the end of each month.
-* The reports show the company's sale information for a day, week, and a month.
-* The reports contain each product's name and the number of items sold.
-* The monthly report is a summary of daily reports for a month.
+* DONE - The CEO can access the monthly report generated at the end of each month.
+* DONE - The reports show the company's sale information for a day, week, and a month.
+* DONE - The reports contain each product's name and the number of items sold.
+* DONE - The monthly report is a summary of daily reports for a month.
 
 ### Staff Requirements
 
@@ -49,9 +46,9 @@ View the video demo [HERE]().
 * DONE - The Staff can remove items sold in the shopping mall.
 * DONE - The Staff can write item information.
 * DONE - The Staff can modify item information.
-* The Staff can reply to unread messages sent by customers.
-* The Staff has access to customer personal information to provide answers to customer questions.
-* The Staff has access to customer payment information to provide answers to customer questions.
+* DONE - The Staff can reply to unread messages sent by customers.
+* DONE - The Staff has access to customer personal information to provide answers to customer questions.
+* DONE - The Staff has access to customer payment information to provide answers to customer questions.
 
 ### Customer Requirements
 
@@ -63,6 +60,6 @@ View the video demo [HERE]().
 * DONE - The Customer can pay by credit card.
 * DONE - The Customer can pay by debit card.
 * The system sends a receipt to the Customer's registered email once a purchase has been made.
-* The Customer can send messages to the Staff in the shopping mall.
+* DONE - The Customer can send messages to the Staff in the shopping mall.
 * DONE - The Customer can "like" an item.
 * DONE - Items with a high number of "likes" will be shown earlier than other items.
