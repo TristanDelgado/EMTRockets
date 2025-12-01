@@ -7,4 +7,6 @@ worker1@system.com,sysadmin,worker,,,,
 worker2@system.com,workerpass,worker,,,,
 1@,1,customer,12451346621,12312412,52 Fiver Lane: Destin: FL,
 2@,2,worker,,,,
-9@,9,ceo,,,,
+ceo@gmail.com,9,ceo,,,,
+tristandelgado44@gmail.com,1234,customer,,,,013
+john227@gmail.com,john227,customer,,,,

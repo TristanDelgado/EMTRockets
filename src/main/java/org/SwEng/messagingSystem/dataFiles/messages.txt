@@ -1,3 +1,4 @@
 1@,CUSTOMER,Hello,CUSTOMER,I am wondering what credit card number I have in the system?,CUSTOMER,Hello; could you please get back to me?,WORKER,Yes; your credit card number on file is 12312412,CUSTOMER,I am sending a message to the store
 cust_b@example.com,WORKER,Hello customer; do you need help?,CUSTOMER,Hello! No I don't but thank you!,CUSTOMER,I hope you have a great Thanksgiving!
 tristan@gmail.com,CUSTOMER,Hello
+tristandelgado44@gmail.com,CUSTOMER,Hello. When do you think you'll start supporting the sales of the Starship V3 model?,WORKER,I am not sure when we'll support Starship V3 but we will have V2 in the store here soon!

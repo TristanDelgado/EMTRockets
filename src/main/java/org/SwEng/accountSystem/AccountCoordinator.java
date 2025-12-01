@@ -232,7 +232,7 @@ public class AccountCoordinator {
         public static final String PROMPT_EMAIL_COLON = "Input Email\nInput: ";
         public static final String INVALID_OPTION_MAIN_MENU = "Invalid option.\n1.Login\n2.Create-Account\nInput: ";
         public static final String INVALID_EMAIL_FORMAT = "Invalid email format. Input Email\nInput: ";
-        public static final String EMAIL_EXISTS_MAIN_MENU = "Email already exists.\n1.Login\n2.Create-Account\nInput: ";
+        public static final String EMAIL_EXISTS_MAIN_MENU = "Email already exists in system.\n1.Login\n2.Create-Account\nInput: ";
         public static final String GENERIC_ERROR_MAIN_MENU = "Error. Returning to main menu.1. Login\n2. Create-Account\nInput: ";
 
         // From helper methods (loginToAccount, createAccount)
