@@ -190,9 +190,10 @@ public class AccountCoordinator {
             return new InternalSystemMessage(Subsystems.ACCOUNT_SYSTEM, outputStrings.PROMPT_PASSWORD_NO_COLON);
         } else {
             // Both email and password are provided. Time to create the account.
-//            currentAccount
+            //currentAccount
             AccountDB.saveAccount(currentAccount);
             allAccounts = AccountDB.loadAccounts();
+            currentAccount =  allAccounts.get(allAccounts.indexOf(currentAccount));
             curScreen = Screen.loadScreen; // Reset state machine
             // Log the user in immediately
             return new InternalSystemMessage(Subsystems.STORE_SYSTEM, "");
